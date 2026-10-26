@@ -5,4 +5,4 @@ Disallow: /sims/
 Disallow: /student/
 Disallow: /files/
 Disallow: /files.html
-Sitemap: https://nouraldeenhasan-art.github.io/banafsajo/sitemap.xml
+Sitemap: https://banafsajo.github.io/sitemap.xml
