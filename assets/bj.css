@@ -182,3 +182,6 @@ a{color:inherit}
 
 @media (max-width:640px){.tabs{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-inline:-4px!important;padding-inline:4px}.tabs::-webkit-scrollbar{display:none}.tabs .sp{display:none}.tabs a,.tabs button{white-space:nowrap;flex:0 0 auto;font-size:14.5px;padding:7px 13px!important}.top .logo .bj-logo{height:40px}.bj-feat{padding:14px}.bj-feats{gap:10px}}
 .av.mas img{display:block}
+.bj-stat span.bj-ic-tile{font-size:26px;color:var(--bj-v600)}.bj-stat span.bj-ic-tile.m{color:var(--bj-mint-d)}.bj-stat span.bj-ic-tile.s{color:#B07A00}.bj-stat span.bj-ic-tile.p{color:#C23C69}
+.bj-ab-grid span.bj-ic-tile{font-size:21px;color:var(--bj-v600)}.bj-ab-grid span.bj-ic-tile.m{color:var(--bj-mint-d)}.bj-ab-grid span.bj-ic-tile.s{color:#B07A00}.bj-ab-grid span.bj-ic-tile.p{color:#C23C69}
+@media (max-width:820px){.bj-stat span.bj-ic-tile{font-size:22px}}
