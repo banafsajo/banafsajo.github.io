@@ -59,6 +59,44 @@ function slider(root){
  root.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){go(i+1);restart();}if(e.key==='ArrowRight'){go(i-1);restart();}});
  mark(0);restart();
 }
-function init(){foot();document.querySelectorAll('.bj-hero').forEach(slider);if(location.hash==='#about')openAbout();if(window.BJI)BJI.hydrate();}
+
+/* ---------- بنفسجو المرافق: يتفاعل مع ما يفعله الطالب ---------- */
+function companion(){
+ if(document.body.dataset.noPal!==undefined)return;
+ const P='assets/brand/poses/';let min=false;try{min=localStorage.getItem('bj_pal_min')==='1';}catch(e){}
+ const el=document.createElement('div');el.className='bj-pal'+(min?' min':'');el.setAttribute('aria-live','polite');
+ el.innerHTML='<button type="button" class="who" aria-label="بنفسجو: اضغط ليتحدث معك"><img alt="" src="'+P+'wave-sm.webp" width="108" height="120"></button><div class="bj-say" role="status"><button type="button" class="x" aria-label="إخفاء">×</button><div class="tx"></div></div>';
+ document.body.appendChild(el);
+ const img=el.querySelector('img'),who=el.querySelector('.who'),say=el.querySelector('.bj-say'),tx=el.querySelector('.tx');
+ const POSES=['wave','think','win','point','face','read','fly','thumbs','sign','run','wow','laptop','magnify','love','raise'];
+ POSES.forEach(n=>{const i=new Image();i.src=P+n+'-sm.webp';});
+ let hideT=null,last='';
+ function pose(n){if(n===last)return;last=n;img.style.opacity='0';setTimeout(()=>{img.src=P+n+'-sm.webp';img.style.opacity='1';},120);who.classList.remove('hop');void who.offsetWidth;who.classList.add('hop');}
+ function talk(n,html,ms){if(min)return;pose(n);tx.innerHTML=html;say.classList.add('on');clearTimeout(hideT);hideT=setTimeout(()=>{say.classList.remove('on');pose('wave');},ms||6000);}
+ const h=new Date().getHours();
+ const greet=h<12?'صباح الخير':h<18?'مساء النور':'مساء الخير';
+ const page=(location.pathname.split('/').pop()||'index.html');
+ const TIPS=[['think','💡 <b>تلميح:</b> في النسبة المئوية، حدّد <b>الأصل</b> أولًا، وافترضه 100 إن لم يُعطَ.'],['magnify','🔍 كل محطة تخبرك <b>أين</b> يظهر سؤالها في قياس. ابدأ منها!'],['run','⏱️ الجولات فيها مؤقّت مثل الاختبار الحقيقي. جرّب واحدة!'],['read','📘 المحطات 1 إلى 4 <b>مجانية</b>: الحساب، الكسور، النسبة المئوية، النسب.'],['thumbs','👍 حلّ مثالًا ثم سؤاله التوأم مباشرة: هكذا تثبت الفكرة.'],['laptop','💻 تعمل المنصة على الجوال والحاسوب، وتقدّمك يُحفظ على جهازك.'],['love','💜 خطوة صغيرة كل يوم أفضل من ساعات في يوم واحد.'],['wow','🤯 هل تعلم؟ مجموع الأعداد من 1 إلى 100 = <b>5050</b>.'],['point','💬 عندك سؤال؟ افتح <b>اسأل بنفسجو</b> من الأعلى.']];
+ let ti=Math.floor(Math.random()*TIPS.length);
+ who.onclick=()=>{if(min){min=false;el.classList.remove('min');try{localStorage.setItem('bj_pal_min','0');}catch(e){}}const k=TIPS[ti++%TIPS.length];talk(k[0],k[1],7000);};
+ say.querySelector('.x').onclick=()=>{min=true;el.classList.add('min');say.classList.remove('on');try{localStorage.setItem('bj_pal_min','1');}catch(e){}};
+ // ترحيب حسب الصفحة
+ const W={'index.html':greet+'! أنا <b>بنفسجو</b> 👋 اختر محطة واضغط «تشغيل»، وأنا معك.','games.html':'🎮 اختر لعبة! الألعاب المجانية عليها شارة «مجاني».','claude.html':'💬 اسألني هنا عن أي محطة أو قانون.','files.html':'📂 هنا ملفات جاهزة للطباعة.','brand.html':'🎨 هذا دليل هويتي! أعجبتك وضعياتي؟'};
+ setTimeout(()=>talk(page==='brand.html'?'love':'wave',W[page]||W['index.html'],6500),1400);
+ // يتفاعل مع البحث
+ const q=document.getElementById('q');let qT=null;
+ if(q)q.addEventListener('input',()=>{clearTimeout(qT);qT=setTimeout(()=>{const v=q.value.trim();if(!v)return;const n=document.querySelectorAll('#grid .card').length;talk(n?'magnify':'wow',n?('🔍 وجدت لك <b>'+n+'</b> نتيجة لـ «'+v.replace(/[<>&]/g,'')+'».'):'🤔 لم أجد شيئًا… جرّب كلمة أخرى مثل «كسور» أو «نسب».',4500);},450);});
+ // عند الضغط على بطاقة مقفلة أو مفتوحة
+ document.addEventListener('click',e=>{const c=e.target.closest('.card');if(!c)return;setTimeout(()=>{if(c.querySelector('.badge.lock'))talk('sign','🔑 هذه للمشتركين. أدخل رمزك مرة واحدة وتُفتح كل المحطات.',5000);else talk('thumbs','🚀 اختيار رائع! اضغط «تشغيل» وأنا أشجّعك.',4000);},80);},true);
+ // عند تفعيل الاشتراك
+ const lb=document.getElementById('loginbtn');if(lb)new MutationObserver(()=>{if(lb.classList.contains('ok')&&!lb.dataset.bjOk){lb.dataset.bjOk='1';if(performance.now()>3000)talk('win','🎉 تم تفعيل اشتراكك! كل المسارات مفتوحة الآن.',6000);}}).observe(lb,{attributes:true,attributeFilter:['class']});
+ // آخر الصفحة
+ let bot=false;window.addEventListener('scroll',()=>{const at=innerHeight+scrollY>=document.body.scrollHeight-40;if(at&&!bot){bot=true;talk('raise','وصلت للنهاية! 🙌 هل تعرّفت على <b>المعلمة</b>؟<div class="acts"><button type="button" data-bj-about>عن المعلمة</button></div>',6000);}},{passive:true});
+ // خمول
+ let idle=null;const reset=()=>{clearTimeout(idle);idle=setTimeout(()=>{const k=TIPS[ti++%TIPS.length];talk(k[0],k[1],6500);},45000);};['pointermove','keydown','scroll','touchstart'].forEach(ev=>addEventListener(ev,reset,{passive:true}));reset();
+ window.BJ.talk=talk;
+}
+
+function init(){foot();companion();document.querySelectorAll('.bj-hero').forEach(slider);if(location.hash==='#about')openAbout();if(window.BJI)BJI.hydrate();}
 if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
 })();
