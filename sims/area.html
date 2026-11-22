@@ -67,6 +67,7 @@ footer{padding:8px 14px;text-align:center;color:var(--muted);font-size:13px}
 #board text{font-family:Tajawal,system-ui,sans-serif;font-weight:700}
 #board .hd{cursor:grab}
 #board .hd:active{cursor:grabbing}
+.sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .12em;font-size:.92em;direction:rtl}.sfr>span{padding:0 .15em}.sfr>span:first-child{border-bottom:.09em solid currentColor}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><meta name="theme-color" content="#5F2EB8"></head>
 <body>
@@ -123,7 +124,7 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
     </div>
     <div id="cir-c">
      <div class="row"><label for="cr">نصف القطر</label><input type="range" id="cr" min="1" max="5" value="3"><span class="val" id="crv">٣</span></div>
-     <div class="sub"><button class="btn alt on" type="button" data-pi="pi">بدلالة π</button><button class="btn alt" type="button" data-pi="314">π ≈ ٣٫١٤</button><button class="btn alt" type="button" data-pi="227">π ≈ <span dir="ltr">٢٢/٧</span></button></div>
+     <div class="sub"><button class="btn alt on" type="button" data-pi="pi">بدلالة π</button><button class="btn alt" type="button" data-pi="314">π ≈ ٣٫١٤</button><button class="btn alt" type="button" data-pi="227">π ≈ <span class="sfr"><span>٢٢</span><span>٧</span></span></button></div>
     </div>
    </div>
    <div class="mc" id="mc-vol">
@@ -148,6 +149,8 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
  <!-- SIM:HELP --><ol><li>اختر شكلًا من الأزرار أعلى اللوحة: مستطيل، شكل L، مثلث ودائرة، أو حجوم.</li><li>اسحب المقابض البنفسجية على الرسم أو حرّك المنزلقات، وشاهد المساحة (المربعات المظللة) والمحيط (الحافة الملوّنة) يتغيران فورًا.</li><li>اقرأ القانون بالأرقام الفعلية في لوحة القراءة، وجرّب «قسّم» في شكل L وأزرار π في الدائرة.</li><li>اضغط «وضع التحدي» لحل ٥ أسئلة وتتعلّم اختصارات القدرات (مثل: محيط شكل L = محيط المستطيل الكبير).</li></ol>
 </div></div>
 <script>
+const SF=(n,d)=>'<span class="sfr"><span>'+n+'</span><span>'+d+'</span></span>';
+
 /* ===== أدوات مشتركة — لا تعدّلها ===== */
 const D=n=>String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);           // أرقام هندية
 const $=s=>document.querySelector(s);
@@ -174,7 +177,7 @@ const F=x=>D(x).replace(/\./g,'٫');                         // أرقام هن�
 const fx=x=>F(Number(x.toFixed(2)));
 const LTR=s=>'<span dir="ltr">'+s+'</span>';
 const cl=(x,a,b)=>Math.max(a,Math.min(b,x));
-const frac=(n,d)=>n%d===0?D(n/d):LTR(D(n)+'/'+D(d))+' ≈ '+fx(n/d);
+const frac=(n,d)=>n%d===0?D(n/d):SF(D(n),D(d))+' ≈ '+fx(n/d);
 const X0=60,Y0=450,GW=16,GH=10;let U=40,SHADE=true,NOTE='';
 const px=u=>X0+u*U,py=v=>Y0-v*U;
 const S={mode:'rect',rect:{w:6,h:4,num:true},L:{W:9,H:6,a:4,b:2,split:0},tc:{sub:'tri',a:3,b:4,r:3,pi:'pi',hideB:false,hideC:false},vol:{L:5,W:3,H:4}};
@@ -250,11 +253,11 @@ function rCir(){const {r,pi}=S.tc;const cx=X0+320,cy=Y0-200,R=r*U;let s='';
  const d2=2*r,r2=r*r;let per,ar;
  if(pi==='pi'){per=`<b>${D(d2)}π سم</b>`;ar=`<b>${D(r2)}π سم²</b>`;}
  else if(pi==='314'){per=`${LTR(D(d2)+' × ٣٫١٤')} = <b>${fx(d2*3.14)} سم</b>`;ar=`${LTR(D(r2)+' × ٣٫١٤')} = <b>${fx(r2*3.14)} سم²</b>`;}
- else{per=`${LTR(D(d2)+' × ٢٢/٧')} = <b>${frac(22*d2,7)} سم</b>`;ar=`${LTR(D(r2)+' × ٢٢/٧')} = <b>${frac(22*r2,7)} سم²</b>`;}
+ else{per=`${LTR(D(d2)+' × '+SF('٢٢','٧'))} = <b>${frac(22*d2,7)} سم</b>`;ar=`${LTR(D(r2)+' × '+SF('٢٢','٧'))} = <b>${frac(22*r2,7)} سم²</b>`;}
  $('#out').innerHTML=`<div class="ln">نصف القطر ر = <b>${D(r)}</b> سم ، القطر = ${D(2*r)} سم</div>
  <div class="ln">🟣 المحيط = ٢πر = ${LTR('٢ × π × '+D(r))} = ${per}</div>
  <div class="ln">🟨 المساحة = πر² = ${LTR('π × '+D(r)+'²')} = ${ar}</div>
- <div class="ln sm">${pi==='pi'?'الإجابة «بدلالة π» تبقي π كما هي دون تقريب.':pi==='314'?'التقريب π ≈ ٣٫١٤ يناسب الأعداد العشرية.':'التقريب π ≈ ٢٢/٧ يناسب نصف قطر من مضاعفات ٧ (اختزل ٧ أولًا).'}</div>`;
+ <div class="ln sm">${pi==='pi'?'الإجابة «بدلالة π» تبقي π كما هي دون تقريب.':pi==='314'?'التقريب π ≈ ٣٫١٤ يناسب الأعداد العشرية.':'التقريب π ≈ '+SF('٢٢','٧')+' يناسب نصف قطر من مضاعفات ٧ (اختزل ٧ أولًا).'}</div>`;
  return s;}
 function rVol(){const {L,W,H}=S.vol;const x=px(1.5),y=py(0.5),dx=W*20,dy=-W*20;const pt=p=>p[0]+','+p[1];
  const FBL=[x,y],FBR=[x+L*U,y],FTR=[x+L*U,y-H*U],FTL=[x,y-H*U];const ad=p=>[p[0]+dx,p[1]+dy];let s='';
@@ -333,8 +336,8 @@ const gPyC=()=>{const [p,q,c]=TRIPLES[rnd(0,TRIPLES.length-1)];const a=Math.max(
 const gPyL=()=>{const [p,q,c]=TRIPLES[rnd(0,TRIPLES.length-1)];const a=Math.max(p,q),b=Math.min(p,q);fig('tc',{sub:'tri',a,b,hideB:true});return {q:`مثلث قائم الزاوية وتره ${D(c)} سم وأحد ضلعي القائمة ${D(a)} سم. ما طول الضلع الآخر؟`,...mk(b,[c+a,c-a,c*c-a*a,b+1],cm),why:`الضلع² = الوتر² − الضلع² = ${LTR(D(c*c)+' − '+D(a*a))} = ${D(b*b)} ← الضلع = ${D(b)} سم (تذكّر الثلاثية ${LTR(D(b)+'-'+D(a)+'-'+D(c))}).`};};
 const gCirPi=()=>{const r=rnd(2,9);fig('tc',{sub:'cir',r,pi:'pi'});if(Math.random()<.5)return {q:`دائرة نصف قطرها ${D(r)} سم. ما محيطها بدلالة π؟`,...mk(2*r,[r*r,r,4*r,2*r*r],pcm),why:`المحيط = ٢πر = ${LTR('٢ × π × '+D(r))} = ${D(2*r)}π سم (المساحة هي πر² = ${D(r*r)}π).`};
  return {q:`دائرة نصف قطرها ${D(r)} سم. ما مساحتها بدلالة π؟`,...mk(r*r,[2*r,r,4*r*r,2*r*r],pcm2),why:`المساحة = πر² = ${LTR('π × '+D(r)+'²')} = ${D(r*r)}π سم² (المحيط هو ٢πر = ${D(2*r)}π).`};};
-const gCir227=()=>{const r=[7,14,21][rnd(0,2)];fig('tc',{sub:'cir',r,pi:'227'});const k=r/7;if(Math.random()<.5)return {q:`دائرة نصف قطرها ${D(r)} سم. ما محيطها؟ (بتقريب π إلى ${LTR('٢٢/٧')})`,...mk(44*k,[22*k*r,2*r,22*k,44*k+7],cm),why:`المحيط = ${LTR('٢ × ٢٢/٧ × '+D(r))} = ${LTR('٤٤ × '+D(k))} = ${D(44*k)} سم؛ اختصار القدرات: اختزل ${D(r)} مع ٧ أولًا.`};
- return {q:`دائرة نصف قطرها ${D(r)} سم. ما مساحتها؟ (بتقريب π إلى ${LTR('٢٢/٧')})`,...mk(22*k*r,[44*k,r*r,44*k*r,22*k*r+7],cm2),why:`المساحة = ${LTR('٢٢/٧ × '+D(r)+' × '+D(r))} = ${LTR('٢٢ × '+D(k)+' × '+D(r))} = ${D(22*k*r)} سم²؛ اختزل ٧ أولًا.`};};
+const gCir227=()=>{const r=[7,14,21][rnd(0,2)];fig('tc',{sub:'cir',r,pi:'227'});const k=r/7;if(Math.random()<.5)return {q:`دائرة نصف قطرها ${D(r)} سم. ما محيطها؟ (بتقريب π إلى ${LTR(''+SF('٢٢','٧')+'')})`,...mk(44*k,[22*k*r,2*r,22*k,44*k+7],cm),why:`المحيط = ${LTR('٢ × '+SF('٢٢','٧')+' × '+D(r))} = ${LTR('٤٤ × '+D(k))} = ${D(44*k)} سم؛ اختصار القدرات: اختزل ${D(r)} مع ٧ أولًا.`};
+ return {q:`دائرة نصف قطرها ${D(r)} سم. ما مساحتها؟ (بتقريب π إلى ${LTR(''+SF('٢٢','٧')+'')})`,...mk(22*k*r,[44*k,r*r,44*k*r,22*k*r+7],cm2),why:`المساحة = ${LTR(''+SF('٢٢','٧')+' × '+D(r)+' × '+D(r))} = ${LTR('٢٢ × '+D(k)+' × '+D(r))} = ${D(22*k*r)} سم²؛ اختزل ٧ أولًا.`};};
 const gVol=()=>{const L=rnd(2,8),W=rnd(2,6),H=rnd(2,6);fig('vol',{L,W,H});return {q:`صندوق على شكل متوازي مستطيلات أبعاده ${LTR(D(L)+' × '+D(W)+' × '+D(H))} سم. ما حجمه؟`,...mk(L*W*H,[2*(L*W+L*H+W*H),L+W+H,L*W+H,2*L*W*H],cm3),why:`الحجم = الطول × العرض × الارتفاع = ${LTR(D(L)+' × '+D(W)+' × '+D(H))} = ${D(L*W*H)} سم³.`};};
 const gSurf=()=>{const L=rnd(2,8),W=rnd(2,6),H=rnd(2,6);fig('vol',{L,W,H});const f=L*W+L*H+W*H;return {q:`صندوق على شكل متوازي مستطيلات أبعاده ${LTR(D(L)+' × '+D(W)+' × '+D(H))} سم. ما مساحة سطحه الكلية؟`,...mk(2*f,[L*W*H,f,4*(L+W+H),2*L*W],cm2),why:`المساحة الكلية = ٢ × (ل ع + ل ر + ع ر) = ${LTR('٢ × ('+D(L*W)+' + '+D(L*H)+' + '+D(W*H)+')')} = ${D(2*f)} سم².`};};
 const gTrap=()=>{const w=rnd(3,8),h=rnd(2,6),r=rnd(2,5),L=rnd(2,5),W=rnd(2,4),H=rnd(2,4);const v=rnd(0,5);let it;

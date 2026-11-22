@@ -76,6 +76,7 @@ body.chal .stage svg{cursor:default}
 @media (max-width:760px){header.bar h1{flex-basis:100%;text-align:right}}
 @media (min-width:761px){.stage svg{max-height:min(560px,calc(100vh - 230px))}}
 
+.sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .12em;font-size:.92em;direction:rtl}.sfr>span{padding:0 .15em}.sfr>span:first-child{border-bottom:.09em solid currentColor}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><meta name="theme-color" content="#5F2EB8"></head>
 <body>
@@ -129,6 +130,8 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
  <ol><li>الشبكة فيها ١٠٠ مربع، كل مربع يساوي ١٪ وكل صف يساوي ١٠٪. حرّك منزلق «النسبة» أو اسحب فوق الشبكة لتظليل المربعات.</li><li>غيّر «القيمة الأساسية» وشاهد القراءة الحية: كم تساوي النسبة من هذا العدد، مع «طريقة القدرات» الذكية (ربع، خُمس، عُشر…).</li><li>جرّب وضع «خصم» لترى السعر بعد الخصم، ووضع «زيادة» لترى الشبكة تمتد فوق ١٠٠٪.</li><li>اضغط «وضع التحدي» وأجب عن ٥ أسئلة بأسلوب اختبار القدرات، وانتبه لفخ «زيادة ثم خصم بنفس النسبة».</li></ol>
 </div></div>
 <script>
+const SF=(n,d)=>'<span class="sfr"><span>'+n+'</span><span>'+d+'</span></span>';
+
 /* ===== أدوات مشتركة — لا تعدّلها ===== */
 const D=n=>String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);           // أرقام هندية
 const $=s=>document.querySelector(s);
@@ -194,7 +197,7 @@ function render(){
  if(S.m==='pct'){
   leg.innerHTML='<span><i style="background:'+C.vio+'"></i>مظلّل: '+D(p)+' من ١٠٠</span><span><i style="background:'+C.empty+'"></i>غير مظلّل: '+D(100-p)+'</span>';
   big.innerHTML='<b>'+pct(p)+'</b> من '+D(B)+' = <b>'+fmt(v)+'</b>';
-  ro.innerHTML='<b>'+pct(p)+'</b> من <b>'+D(B)+'</b> = <b>'+fmt(v)+'</b><small>'+D(p)+' مربعًا من ١٠٠ ← '+pct(p)+' = '+L(D(p)+'/١٠٠')+'</small>';
+  ro.innerHTML='<b>'+pct(p)+'</b> من <b>'+D(B)+'</b> = <b>'+fmt(v)+'</b><small>'+D(p)+' مربعًا من ١٠٠ ← '+pct(p)+' = '+SF(D(p),'١٠٠')+'</small>';
   sc.innerHTML='<span class="t">طريقة القدرات:</span> '+scLine(p,B);
  }else if(S.m==='disc'){
   const after=B-v;

@@ -69,6 +69,7 @@ footer{padding:8px 14px;text-align:center;color:var(--muted);font-size:13px}
 .pans .box b{display:block;color:var(--navy);margin-bottom:4px}
 .pans .btn{padding:4px 8px;font-size:15px;min-height:44px;min-width:44px}
 .frm{font-size:17px}
+.sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .12em;font-size:.92em;direction:rtl}.sfr>span{padding:0 .15em}.sfr>span:first-child{border-bottom:.09em solid currentColor}
 </style>
 <link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><meta name="theme-color" content="#5F2EB8"></head>
 <body>
@@ -153,6 +154,8 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
  <!-- SIM:HELP --><ol><li><b>توزيع بنسبة:</b> حرّك منزلقات النسبة والمجموع، وشاهد كيف يُقسَّم الشريط إلى أجزاء متساوية: قيمة الجزء = المجموع ÷ مجموع الأطراف.</li><li><b>الميزان:</b> اسحب كتلًا (١، ٢، ٥) إلى الكفتين، وانظر كيف يميل الميزان، واقرأ النسبة بين الكفتين مبسّطة بالقسمة على القاسم المشترك الأكبر.</li><li><b>التناسب الطردي:</b> غيّر أ، ب، ج في الجدول واكتشف كيف نجد س بالضرب التبادلي.</li><li>اضغط «وضع التحدي» وجرّب ٥ أسئلة بأسلوب اختبار القدرات.</li></ol>
 </div></div>
 <script>
+const SF=(n,d)=>'<span class="sfr"><span>'+n+'</span><span>'+d+'</span></span>';
+
 /* ===== أدوات مشتركة — لا تعدّلها ===== */
 const D=n=>String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);           // أرقام هندية
 const $=s=>document.querySelector(s);
@@ -274,8 +277,8 @@ render2();
 
 /* ===== الوضع ٣: التناسب الطردي ===== */
 const S3={a:3,b:12,c:7};
-function fracSvg(n,d){const [p,q]=simp(n,d);return q===1?D(p):D(p)+'/'+D(q)+' ≈ '+dec(n/d);}
-function fracStr(n,d){const [p,q]=simp(n,d);if(q===1)return D(p);return LTR(D(p)+'/'+D(q))+' ≈ '+dec(n/d);}
+function fracSvg(n,d){const [p,q]=simp(n,d);return q===1?D(p):D(p)+' ÷ '+D(q)+' ≈ '+dec(n/d);}
+function fracStr(n,d){const [p,q]=simp(n,d);if(q===1)return D(p);return SF(D(p),D(q))+' ≈ '+dec(n/d);}
 function render3(){const {a,b,c}=S3;const num=b*c,[p,q]=simp(num,a),x=num/a;
  $('#vpa').textContent=D(a);$('#vpb').textContent=D(b);$('#vpc').textContent=D(c);
  let s='';const cw=120,ch=56,x1=360,x2=240,y1=50,y2=106;   // أ يمين، ب يسار
@@ -289,13 +292,13 @@ function render3(){const {a,b,c}=S3;const num=b*c,[p,q]=simp(num,a),x=num/a;
  // خطوات الحل
  const ys=200;
  s+='<text x="575" y="'+ys+'" text-anchor="start" font-size="20" fill="'+C.vio+'">'+LT(D(a)+' × س = '+D(b)+' × '+D(c)+' = '+D(num))+'</text>';
- s+='<text x="575" y="'+(ys+34)+'" text-anchor="start" font-size="20" fill="'+C.navy+'">'+LT('س = '+D(num)+' ÷ '+D(a)+' = <tspan fill="'+C.bad+'" font-size="24">'+(q===1?D(p):D(p)+'/'+D(q))+'</tspan>'+(q===1?'':' ≈ '+dec(x)))+'</text>';
+ s+='<text x="575" y="'+(ys+34)+'" text-anchor="start" font-size="20" fill="'+C.navy+'">'+LT('س = '+D(num)+' ÷ '+D(a)+' = <tspan fill="'+C.bad+'" font-size="24">'+(q===1?D(p):D(p)+' ÷ '+D(q))+'</tspan>'+(q===1?'':' ≈ '+dec(x)))+'</text>';
  // أشرطة متناسبة (الطول يتناسب مع القيمة)
  const sc=440/Math.max(b,x,a,c,1),bar=(y,len,col,lab)=>'<rect x="'+(505-len*sc)+'" y="'+y+'" width="'+(len*sc)+'" height="18" rx="4" fill="'+col+'"/><text x="585" y="'+(y+15)+'" font-size="16" fill="'+C.fg+'" text-anchor="start">'+lab+'</text>';
  s+=bar(250,a,C.vio,'أ = '+D(a))+bar(272,b,C.ok,'ب = '+D(b))+bar(294,c,C.vio,'ج = '+D(c))+bar(316,x,C.ok,'س = '+(q===1?D(p):dec(x)));
  s+='<text x="300" y="352" text-anchor="middle" font-size="15" fill="'+C.muted+'">كلما تضاعف أ تضاعف ب بالنسبة نفسها: ثابت التناسب = ب ÷ أ = '+LT(fracSvg(b,a))+'</text>';
  $('#s3').innerHTML=s;
- $('#out3').innerHTML='<span class="frm">أ ÷ ب = ج ÷ س ⟸ '+LTR(D(a)+'/'+D(b))+' = '+LTR(D(c)+'/س')+'</span><br>الضرب التبادلي: '+LTR(D(a)+' × س = '+D(b)+' × '+D(c))+'<br>س = '+LTR(D(num)+' ÷ '+D(a))+' = <b>'+fracStr(num,a)+'</b>';}
+ $('#out3').innerHTML='<span class="frm">أ ÷ ب = ج ÷ س ⟸ '+SF(D(a),D(b))+' = '+SF(D(c),'س')+'</span><br>الضرب التبادلي: '+LTR(D(a)+' × س = '+D(b)+' × '+D(c))+'<br>س = '+LTR(D(num)+' ÷ '+D(a))+' = <b>'+fracStr(num,a)+'</b>';}
 ['#pa','#pb','#pc'].forEach(id=>$(id).oninput=()=>{S3.a=+$('#pa').value;S3.b=+$('#pb').value;S3.c=+$('#pc').value;render3();});
 render3();
 

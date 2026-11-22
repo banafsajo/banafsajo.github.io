@@ -151,6 +151,7 @@ function MX(n,d,cls){if(d===1||n<d)return FR(n,d,cls);const w=Math.floor(n/d),r=
 const LTR=s=>'<span class="ltr">'+s+'</span>';
 /* ===== الرسم ===== */
 const svg=$('#board');
+function sfr(g,x,yn,n,d,fill,fs){g.append(el('text',{x,y:yn,'text-anchor':'middle','font-size':fs,'font-weight':800,fill},n));const w=Math.max(String(n).length,String(d).length)*fs*0.32+6;g.append(el('line',{x1:x-w,y1:yn+4,x2:x+w,y2:yn+4,stroke:fill,'stroke-width':2}));g.append(el('text',{x,y:yn+fs+5,'text-anchor':'middle','font-size':fs,'font-weight':800,fill},d));}
 function el(t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
 function arcPath(cx,cy,r,a0,a1){const x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);const big=(a1-a0)>Math.PI?1:0;return 'M'+cx+','+cy+' L'+x0.toFixed(2)+','+y0.toFixed(2)+' A'+r+','+r+' 0 '+big+' 1 '+x1.toFixed(2)+','+y1.toFixed(2)+' Z';}
 function drawCircle(g,cx,cy,r,d,k,color){
@@ -179,7 +180,7 @@ function drawFraction(idx,X0){
   g.append(el('text',{x:cx,y:370,'text-anchor':'middle','font-size':26,'font-weight':800,fill:color},D(n)));
   g.append(el('line',{x1:cx-20,y1:377,x2:cx+20,y2:377,stroke:color,'stroke-width':3}));
   g.append(el('text',{x:cx,y:404,'text-anchor':'middle','font-size':26,'font-weight':800,fill:color},D(d)));
-  if(n>=d&&d>1){const w=Math.floor(n/d),r=n%d;g.append(el('text',{x:cx-34,y:392,'text-anchor':'start',direction:'rtl','font-size':17,'font-weight':700,fill:MUTED},'= '+(r===0?D(w):D(w)+' و '+D(r)+'/'+D(d))));}
+  if(n>=d&&d>1){const w=Math.floor(n/d),r=n%d;const pre='= '+D(w)+(r===0?'':' و');g.append(el('text',{x:cx-34,y:392,'text-anchor':'start',direction:'rtl','font-size':17,'font-weight':700,fill:MUTED},pre));if(r!==0)sfr(g,cx-34-pre.length*9.5-12,384,D(r),D(d),MUTED,15);}
  }
  svg.append(g);
 }
@@ -193,9 +194,9 @@ function drawNumberLine(){
  g.append(el('path',{d:'M'+(x1+20)+','+y+' l-9,-6 v12 z',fill:FG}));
  for(let i=0;i<=R;i++){const x=x0+i*sc;g.append(el('line',{x1:x,y1:y-12,x2:x,y2:y+12,stroke:FG,'stroke-width':2.5}));g.append(el('text',{x,y:y+34,'text-anchor':'middle','font-size':17,'font-weight':800,fill:FG},D(i)));}
  const px1=x0+v1*sc;g.append(el('circle',{cx:px1,cy:y-22,r:8,fill:C1,stroke:'#fff','stroke-width':2}));g.append(el('line',{x1:px1,y1:y-14,x2:px1,y2:y,stroke:C1,'stroke-width':2.5}));
- g.append(el('text',{x:px1,y:y-34,'text-anchor':'middle','font-size':15,'font-weight':800,fill:C1,direction:'ltr'},S.hideLabels?'؟':D(S.n1)+'/'+D(S.d1)));
+ if(S.hideLabels)g.append(el('text',{x:px1,y:y-34,'text-anchor':'middle','font-size':15,'font-weight':800,fill:C1},'؟'));else sfr(g,px1,y-56,D(S.n1),D(S.d1),C1,15);
  if(!S.hideB){const px2=x0+v2*sc;g.append(el('path',{d:'M'+px2+','+(y+2)+' l-8,14 h16 z',fill:C2,stroke:'#fff','stroke-width':1.5}));
-  g.append(el('text',{x:px2,y:y+58,'text-anchor':'middle','font-size':15,'font-weight':800,fill:C2,direction:'ltr'},S.hideLabels?'؟':D(S.n2)+'/'+D(S.d2)));}
+  if(S.hideLabels)g.append(el('text',{x:px2,y:y+58,'text-anchor':'middle','font-size':15,'font-weight':800,fill:C2},'؟'));else sfr(g,px2,y+58,D(S.n2),D(S.d2),C2,15);}
  svg.append(g);
 }
 function render(){
