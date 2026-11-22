@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useStore, streak, setStore, resetProgress } from '../lib/store.js';
+import { useStore, streak, setStore, resetProgress, dealStatus } from '../lib/store.js';
 import { TRACK } from '../data/stations.js';
 import { ar } from '../lib/num.js';
 import { Button, Mascot, Sheet, Fraction, poseSrc } from '../components/ui.jsx';
 import { go } from '../App.jsx';
+
+const CONTACT = 'mailto:hammad.renad.92@gmail.com?subject=' + encodeURIComponent('تواصل من تطبيق بنفسجو');
 
 export default function Home() {
   const [s] = useStore();
@@ -12,6 +14,7 @@ export default function Home() {
   const today = TRACK.find((t) => t.ready && !s.done[t.id]) || TRACK.find((t) => t.ready);
   const allDone = TRACK.filter((t) => t.ready).every((t) => s.done[t.id]);
   const days = streak(s.days);
+  const deal = dealStatus(s);
 
   return (
     <main className="screen home">
@@ -37,6 +40,17 @@ export default function Home() {
         <Button onClick={() => { setStore({ seenGuide: true }); go('station/' + today.id); }}>{s.done[today.id] ? 'أعد المحطة' : 'ابدأ'}</Button>
       </section>
 
+      {!s.board && (
+        <a className="deal-card" href="#/deal">
+          <span className="deal-e" aria-hidden="true">🤝</span>
+          {!deal && <span className="deal-txt"><b>صفقة الأسبوع مع نفسك</b><small>هدف، ومكافأة تحبّها… وضريبة للكسل 😄</small></span>}
+          {deal && deal.state === 'active' && <span className="deal-txt"><b>صفقتك: ⭐ {ar(deal.got)} من {ar(deal.goal)}</b><span className="deal-bar"><span style={{ width: `${deal.pct * 100}%` }} /></span><small>بقي {ar(deal.daysLeft)} {deal.daysLeft === 1 ? 'يوم' : 'أيام'} · {deal.reward.e} بانتظارك</small></span>}
+          {deal && deal.state === 'won' && <span className="deal-txt"><b>وفيت بوعدك! 🎉</b><small>افتح لترى مكافأتك</small></span>}
+          {deal && deal.state === 'lost' && <span className="deal-txt"><b>محكمة بنفسجو تنتظرك ⚖️</b><small>انتهى الأسبوع، افتح لترى الحكم</small></span>}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+        </a>
+      )}
+
       <h2 className="section-label">طريقك في الكمّي</h2>
       <ol className="trail">
         {TRACK.map((t) => {
@@ -53,6 +67,8 @@ export default function Home() {
           );
         })}
       </ol>
+
+      <footer className="home-foot"><a href={CONTACT}>تواصل معنا</a></footer>
 
       {!s.seenGuide && (
         <div className="guide" role="dialog" aria-modal="true" aria-label="مرحبًا بك">
@@ -94,6 +110,7 @@ export default function Home() {
           <input type="checkbox" checked={!!s.board} onChange={(e) => setStore({ board: e.target.checked })} />
           <span><b>وضع السبورة</b><small>للمعلّم: خط أكبر، بلا نجوم، ومؤقّت «فكّر» قبل كل سؤال</small></span>
         </label>
+        <Button variant="ghost" href={CONTACT}>✉️ تواصل معنا</Button>
         <div className="sheet-actions">
           <Button variant="link" onClick={() => { if (window.confirm('مسح التقدّم والنجوم من هذا الجهاز؟')) { resetProgress(); setMe(false); } }}>مسح التقدّم والبدء من جديد</Button>
         </div>

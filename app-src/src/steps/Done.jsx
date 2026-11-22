@@ -1,6 +1,6 @@
 import { Button, Fraction, poseSrc } from '../components/ui.jsx';
 import { ar } from '../lib/num.js';
-import { useStore } from '../lib/store.js';
+import { useStore, dealStatus } from '../lib/store.js';
 import { go } from '../App.jsx';
 
 export default function Done({ data, practice, score, saved, onRetry, onRestart }) {
@@ -24,6 +24,9 @@ export default function Done({ data, practice, score, saved, onRetry, onRestart 
         <span className="muted small">بطاقة القانون · حُفظت في «ملخّصاتي»</span>
         <div className="law-line">{data.law.title} = <Fraction n={data.law.top} d={data.law.bottom} size="sm" /> {data.law.tail}</div>
       </div>
+      {!s.board && dealStatus(s) && (
+        <a className="deal-mini" href="#/deal">🤝 صفقتك: ⭐ {ar(dealStatus(s).got)} من {ar(dealStatus(s).goal)}{dealStatus(s).state === 'won' ? ' · وفيت بوعدك! 🎉' : ''}</a>
+      )}
       <div className="done-actions">
         <Button variant="sun" onClick={() => go('')}>إلى الرئيسية</Button>
         {onRetry ? <Button variant="link-light" onClick={onRetry}>أعيد الأسئلة التي أخطأت فيها</Button> : <Button variant="link-light" onClick={onRestart}>أعد المحطة من البداية</Button>}

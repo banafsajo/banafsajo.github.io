@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
 const KEY = 'banafsajo.v2';
-const blank = { stars: 0, done: {}, laws: [], seenGuide: false, board: false, days: [], };
+const blank = { stars: 0, done: {}, laws: [], seenGuide: false, board: false, days: [], deal: null, deals: [] };
 
 function load() {
   try { return { ...blank, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return { ...blank }; }
@@ -45,3 +45,20 @@ export function finishStation(id, { stars, earned, law }) {
 }
 export function resetProgress() { set({ ...blank, seenGuide: true }); }
 export const setStore = set;
+
+const DAY = 86400000;
+/** Weekly self-contract: progress and state, derived from the stored deal. */
+export function dealStatus(s, now = Date.now()) {
+  const d = s.deal;
+  if (!d) return null;
+  const got = Math.max(0, s.stars - d.startStars);
+  const daysLeft = Math.max(0, Math.ceil((d.end - now) / DAY));
+  const state = d.closed ? d.closed : got >= d.goal ? 'won' : now >= d.end ? 'lost' : 'active';
+  return { ...d, got, daysLeft, state, pct: Math.min(1, got / d.goal) };
+}
+export function startDeal(deal) {
+  set((s) => ({ ...s, deal: { ...deal, startStars: s.stars, start: Date.now(), end: Date.now() + 7 * DAY } }));
+}
+export function closeDeal(result, extra = {}) {
+  set((s) => ({ ...s, deal: null, deals: [...s.deals, { ...s.deal, closed: result, ...extra, at: Date.now() }].slice(-20) }));
+}

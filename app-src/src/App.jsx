@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Home from './screens/Home.jsx';
 import Station from './screens/Station.jsx';
+import Deal from './screens/Deal.jsx';
 import { useStore, setStore } from './lib/store.js';
 import { STATIONS } from './data/stations.js';
 
@@ -8,6 +9,7 @@ function parse() {
   const h = location.hash.replace(/^#\/?/, '');
   const [page, id] = h.split('/');
   if (page === 'station' && STATIONS[id]) return { page: 'station', id };
+  if (page === 'deal') return { page: 'deal' };
   return { page: 'home' };
 }
 export const go = (path) => { location.hash = '#/' + path; };
@@ -26,7 +28,7 @@ export default function App() {
   useEffect(() => { document.documentElement.classList.toggle('board', !!s.board); }, [s.board]);
   return (
     <div className="shell">
-      {route.page === 'station' ? <Station key={route.id} data={STATIONS[route.id]} /> : <Home />}
+      {route.page === 'station' ? <Station key={route.id} data={STATIONS[route.id]} /> : route.page === 'deal' ? <Deal /> : <Home />}
     </div>
   );
 }
