@@ -100,7 +100,7 @@ html.bjd .note{
 html.bjd .note::before{content:"";position:absolute;top:-10px;right:34px;width:70px;height:20px;background:rgba(154,130,227,.35);border-radius:3px;transform:rotate(-3deg)}
 html.bjd .note.trap{border:2px dashed var(--v3)!important;transform:rotate(.5deg);background:#FDFBFF!important}
 html.bjd .note.trap::before{background:rgba(91,59,181,.22)}
-html.bjd .box{background:#fff!important;border:2px solid var(--line)!important;border-radius:22px!important;box-shadow:3px 4px 0 var(--vl2)}
+html.bjd .box:not([style*="border:0"]){background:#fff!important;border:2px solid var(--line)!important;border-radius:22px!important;box-shadow:3px 4px 0 var(--vl2)}
 html.bjd .figc svg,html.bjd .slide:not(.game) .kfig svg{filter:drop-shadow(2px 3px 0 rgba(91,59,181,.08))}
 
 /* ===== شريحة العنوان: أقل نصًا وأوضح ===== */
@@ -158,6 +158,59 @@ html.bjd .slide.bjvid .bjv{margin:6px auto 0}
 
 /* ===== أزرار غلاف التطبيق فوق العرض: أصغر وأهدأ ===== */
 html.bjd .bja-dk .bjb{background:rgba(255,255,255,.9)!important;color:var(--v)!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important;font-size:13px!important}
+
+/* ===== بطاقات الشرح: خطوة = بطاقة قصيرة، والإجابة شريط واضح ===== */
+html.bjd .ex.bjd-cards{display:grid!important;grid-template-columns:repeat(var(--c,3),minmax(0,1fr));gap:20px 34px;align-items:stretch;padding:14px 2px 4px!important}
+html.bjd .ex.bjd-cards .step{
+  background:#fff;border:2px solid var(--line)!important;border-radius:24px;box-shadow:3px 5px 0 var(--vl2);
+  padding:58px 20px 18px!important;font-size:31px;line-height:1.4;text-align:center;
+  display:flex;flex-direction:column;justify-content:center;gap:8px;min-height:150px
+}
+html.bjd .ex.bjd-cards .step::before{right:50%!important;top:-4px!important;transform:translate(50%,0);width:48px!important;height:48px!important;font-size:24px!important}
+html.bjd .ex.bjd-cards .step.on::before{animation:bjdPop2 .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes bjdPop2{from{transform:translate(50%,0) scale(.2) rotate(-25deg)}to{transform:translate(50%,0)}}
+html.bjd .ex.bjd-cards .step:not(.ans)::after{
+  content:"←"!important;position:absolute;left:-30px!important;right:auto!important;top:50%!important;bottom:auto!important;
+  transform:translateY(-50%);border:0!important;font-size:30px;font-weight:800;color:var(--v3)
+}
+html.bjd .ex.bjd-cards .step.bjd-last::after{display:none}
+html.bjd .ex.bjd-cards .step.bjd-re::after{display:none}
+html.bjd .bjd-k{display:block;font-size:.66em;font-weight:800;color:var(--v);line-height:1.35;letter-spacing:0}
+html.bjd .bjd-k.arr::after{content:" ←";color:var(--v3)}
+html.bjd .bjd-v{display:block;font-weight:700;color:var(--ink)}
+html.bjd .ex.bjd-cards .step.ans{
+  grid-column:1/-1;background:var(--v)!important;color:#fff!important;border-color:var(--v)!important;border-radius:999px;
+  min-height:0;padding:12px 70px!important;font-size:36px;font-weight:800;background-image:none!important;box-shadow:0 8px 22px rgba(91,59,181,.28)
+}
+html.bjd .ex.bjd-cards .step.ans::before{content:"✓";right:18px!important;top:50%!important;transform:translateY(-50%);background:#fff!important;color:var(--v)!important;border-color:#fff!important;box-shadow:none}
+html.bjd .ex.bjd-cards .step.ans.on::before{animation:none}
+html.bjd .ex.bjd-cards .step.ans .sfr>span:first-child{border-color:#fff}
+/* بطاقة القوانين: عمودان، النص إلى اليمين */
+html.bjd .ex.bjd-law .step{text-align:right;padding:16px 74px 16px 18px!important;min-height:0;font-size:27px;justify-content:flex-start}
+html.bjd .ex.bjd-law .step::before{right:16px!important;top:16px!important;transform:none;width:42px!important;height:42px!important;font-size:21px!important}
+html.bjd .ex.bjd-law .step.on::before{animation:bjdPop .45s cubic-bezier(.3,1.6,.5,1) both}
+html.bjd .ex.bjd-law .step::after{display:none!important}
+html.bjd .ex.bjd-law .bjd-k{font-size:.8em}
+/* الملاحظات تحت البطاقات: بطاقتان صغيرتان متجاورتان */
+html.bjd .box[style*="border:0"]{display:flex;flex-wrap:wrap;gap:14px 18px;align-content:flex-start}
+html.bjd .box[style*="border:0"]>.ex{flex:1 1 100%}
+html.bjd .box[style*="border:0"]>.note{flex:1 1 calc(50% - 18px);margin-top:6px!important;font-size:26px!important}
+/* العنوان: «الحل · مثال» كبير والموضوع سطر صغير */
+html.bjd .bjd-sub{display:block;font-size:24px;font-weight:600;color:var(--mut);background:none;margin-top:2px;line-height:1.4}
+html.bjd .slide:not(.game):not(.title) h2:has(.bjd-sub){display:block;background:none;padding:0}
+html.bjd .slide:not(.game):not(.title) h2:has(.bjd-sub)::after{display:none}
+
+html.bjd .slide:has(.bjd-law) .note{font-size:21px!important;color:var(--mut);box-shadow:none;transform:none;background:transparent!important;border-style:dashed!important}
+html.bjd .slide:has(.bjd-law) .note::before{display:none}
+/* ===== كسور المعادلات: أفقية س/ص ===== */
+html.bjd .bjd-hf .sfr{display:inline!important;font-size:1em!important;margin:0 .06em!important;line-height:inherit;vertical-align:baseline}
+html.bjd .bjd-hf .sfr>span{display:inline!important;padding:0!important;border:0!important}
+html.bjd .bjd-hf .sfr>span:first-child::after{content:"/";margin:0 .08em;font-weight:inherit}
+html.bjd .bjd-hf .sfr>span.bjd-par::before{content:"("}
+html.bjd .bjd-hf .sfr>span.bjd-par:first-child::after{content:")/"}
+html.bjd .bjd-hf .sfr>span.bjd-par:last-child::after{content:")"}
+html.bjd .bjd-hf .sfr .sfr::before{content:"("}
+html.bjd .bjd-hf .sfr .sfr::after{content:")"}
 
 @media (prefers-reduced-motion:reduce){
   html.bjd .slide.cur>.inner>*,html.bjd .step.on,html.bjd .ex:not(.slide) .step.on::before{animation:none!important}

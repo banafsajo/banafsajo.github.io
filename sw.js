@@ -1,6 +1,6 @@
 /* بنفسجو — عامل الخدمة: يجعل المنصة تطبيقًا يعمل حتى دون إنترنت.
    الصفحات الأساسية تُحفظ عند التثبيت، وكل محطة أو لعبة يفتحها الطالب تُحفظ تلقائيًا بعد أول زيارة. */
-const VERSION = 'bj-2026-11-24-5';
+const VERSION = 'bj-2026-11-24-6';
 const CORE = [
   '/', '/index.html', '/games.html', '/claude.html', '/files.html', '/brand.html',
   '/manifest.webmanifest',

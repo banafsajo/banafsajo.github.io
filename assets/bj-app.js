@@ -100,7 +100,9 @@
   /* ---------- الصفحات العلوية (الألعاب، اسأل بنفسجو، الملفات، الهوية) ---------- */
   function topShell() {
     var hdr = d.querySelector('header.top');
-    if (hdr && TYPE !== 'home') {
+    var ROOTS = /^(claude|games|files)\.html$/;
+    if (APP && ROOTS.test(file)) H.classList.add('bja-root'); /* صفحات التبويب في التطبيق: الشعار بدل «رجوع» */
+    else if (hdr && TYPE !== 'home') {
       var g = el('div', 'bja-hnav');
       navButtons().forEach(function (b) { g.appendChild(b); });
       hdr.insertBefore(g, hdr.firstChild);
