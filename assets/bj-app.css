@@ -251,3 +251,6 @@ header.bar.bja-simbar>[hidden]{display:none!important}
 
 /* «تعرّف على بنفسجو» أخف على الجوال: بطاقتان في كل صف */
 @media (max-width:560px){.bj-feats{grid-template-columns:1fr 1fr!important;gap:8px!important}.bj-feat{padding:12px!important}.bj-feat h3{font-size:15px!important;margin-top:8px!important}.bj-feat p{font-size:13px!important}.bj-feat .bj-ic-tile{width:40px;height:40px;font-size:20px}.bj-feat .ex{top:10px;left:10px}}
+/* الكسر: البسط فوق المقام */
+.sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .12em;font-size:.92em;direction:rtl;font-variant-numeric:tabular-nums}
+.sfr>span{padding:0 .15em}.sfr>span:first-child{border-bottom:.09em solid currentColor}

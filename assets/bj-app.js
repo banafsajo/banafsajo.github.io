@@ -21,7 +21,7 @@
 
   /* ---------- الأنماط ---------- */
   if (!d.querySelector('link[href*="bj-app.css"]')) {
-    var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = ROOT + 'assets/bj-app.css?v=1'; d.head.appendChild(l);
+    var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = ROOT + 'assets/bj-app.css?v=2'; d.head.appendChild(l);
   }
 
   /* ---------- أيقونات ---------- */
@@ -241,9 +241,87 @@
     sh.querySelector('.bjb').focus();
   }
 
+
+  /* ---------- الكسور: كل «أ/ب» يُكتب بسطًا فوق مقام ---------- */
+  var FD = '0123456789٠١٢٣٤٥٦٧٨٩', FV = 'أابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+  var UL = ['كم', 'م', 'سم', 'ملم', 'كجم', 'جم', 'ل', 'مل', 'ريال'], UR = ['س', 'ث', 'د', 'ساعة', 'ثانية', 'دقيقة', 'يوم', 'لتر'];
+  function stackText(raw) {
+    var store = [], P0 = 0xE000;
+    var isph = function (c) { return !!c && c.charCodeAt(0) >= P0 && c.charCodeAt(0) < P0 + 4000; };
+    var atom = function (c) { return !!c && (FD.indexOf(c) > -1 || FV.indexOf(c) > -1 || '.٫²³ⁿ'.indexOf(c) > -1 || isph(c)); };
+    var word = function (c) { return !!c && /[ء-ي]/.test(c) && !atom(c); };
+    var lettersOk = function (t) { return (t.match(/[ء-ي]+/g) || []).every(function (r) { return r.length <= 2; }); };
+    function mR(s, j) { var d = 0; for (var k = j; k < s.length; k++) { if (s[k] === '(') d++; else if (s[k] === ')') { d--; if (!d) return k; } } return -1; }
+    function mL(s, j) { var d = 0; for (var k = j; k >= 0; k--) { if (s[k] === ')') d++; else if (s[k] === '(') { d--; if (!d) return k; } } return -1; }
+    function strip(t) { t = t.trim(); return (t[0] === '(' && mR(t, 0) === t.length - 1) ? t.slice(1, -1).trim() : t; }
+    function isUnit(s, i) {
+      var l = /([ء-ي]+)\s*$/.exec(s.slice(0, i)), r = /^\s*([ء-ي]+)/.exec(s.slice(i + 1));
+      return !!(l && r && UL.indexOf(l[1].replace(/^(ال|بال|لل)/, '')) > -1 && UR.indexOf(r[1]) > -1);
+    }
+    function left(s, i) {
+      var j = i - 1; while (j >= 0 && s[j] === ' ') j--; if (j < 0) return null;
+      var end = j + 1, st;
+      if (s[j] === ')') { st = mL(s, j); if (st < 0) return null; while (st > 0 && atom(s[st - 1])) st--; }
+      else if (atom(s[j]) && '.٫'.indexOf(s[j]) < 0) { st = j; while (st > 0 && atom(s[st - 1])) st--; }
+      else return null;
+      if (word(s[st - 1])) return null;
+      var tok = s.slice(st, end); if (!lettersOk(tok[0] === '(' ? tok.slice(1, -1) : tok.replace(/\(.*\)$/, ''))) return null;
+      return [st, end];
+    }
+    function right(s, i) {
+      var j = i + 1; while (j < s.length && s[j] === ' ') j++; if (j >= s.length) return null;
+      var st = j, end;
+      if (s[j] === '(') { end = mR(s, j); if (end < 0) return null; end++; }
+      else if (atom(s[j])) {
+        end = j; while (end < s.length && atom(s[end]) && !('.٫'.indexOf(s[end]) > -1 && FD.indexOf(s[end + 1] || 'x') < 0)) end++;
+        if (s[end] === '(') { var k = mR(s, end); if (k > 0) end = k + 1; }
+      } else return null;
+      while (s[end] === '^') {
+        if (s[end + 1] === '(') { var q = mR(s, end + 1); if (q < 0) break; end = q + 1; }
+        else { var e2 = end + 1; while (e2 < s.length && atom(s[e2])) e2++; if (e2 === end + 1) break; end = e2; }
+      }
+      if (word(s[end])) return null;
+      if (!lettersOk(s.slice(st, end).replace(/^\(|\)$/g, ''))) return null;
+      return [st, end];
+    }
+    var s = raw.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; });
+    // التواريخ مثل 16/11/2026 ليست كسورًا
+    s = s.replace(/[0-9٠-٩]{1,2}\/[0-9٠-٩]{1,2}\/[0-9٠-٩]{2,4}/g, function (m) { store.push(m); return String.fromCharCode(P0 + store.length - 1); });
+    var changed = true, any = false;
+    while (changed) {
+      changed = false;
+      for (var i = 0; i < s.length; i++) {
+        if (s[i] !== '/' || isUnit(s, i)) continue;
+        var L = left(s, i), R = right(s, i); if (!L || !R) continue;
+        var lt = s.slice(L[0], L[1]), rt = s.slice(R[0], R[1]);
+        if (lt.indexOf('/') > -1 || rt.indexOf('/') > -1) continue;
+        var n = strip(lt), d2 = strip(rt); if (!n || !d2) continue;
+        store.push('<span class="sfr"><span>' + n + '</span><span>' + d2 + '</span></span>');
+        s = s.slice(0, L[0]) + String.fromCharCode(P0 + store.length - 1) + s.slice(R[1]);
+        changed = any = true; break;
+      }
+    }
+    if (!any) return null;
+    for (var g = 0; g < 10 && /[-]/.test(s); g++) s = s.replace(/[-]/g, function (c) { return store[c.charCodeAt(0) - P0]; });
+    return s;
+  }
+  function stackFractions(root) {
+    if (!root) return;
+    var w = d.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: function (n) {
+      var p = n.parentElement;
+      if (!p || p.closest('script,style,textarea,input,svg,code,.sfr')) return NodeFilter.FILTER_REJECT;
+      return n.nodeValue.indexOf('/') > -1 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    } });
+    var list = [], n; while ((n = w.nextNode())) list.push(n);
+    list.forEach(function (t) {
+      var h = stackText(t.nodeValue); if (h == null) return;
+      var tpl = d.createElement('template'); tpl.innerHTML = h; t.parentNode.replaceChild(tpl.content, t);
+    });
+  }
+
   /* ---------- واجهة مشتركة تستعملها الصفحة الرئيسية ---------- */
   window.BJA = {
-    ar: ar, ic: ic, install: install, installed: installed, celebrate: celebrate, toast: netToast,
+    ar: ar, ic: ic, install: install, stack: stackFractions, stackText: stackText, installed: installed, celebrate: celebrate, toast: netToast,
     canPrompt: function () { return !!deferred; },
     prog: function () { return load('bj_prog', {}); },
     last: function () { return load('bj_last', null); }
@@ -258,6 +336,11 @@
     if (TYPE === 'deck') deckShell();
     else if (TYPE === 'sim') simShell();
     else topShell();
+    if (TYPE === 'home' || TYPE === 'top') {
+      stackFractions(d.body);
+      var mo = new MutationObserver(function (ms) { ms.forEach(function (m) { m.addedNodes.forEach(function (x) { if (x.nodeType === 1) stackFractions(x); else if (x.nodeType === 3 && x.parentElement) stackFractions(x.parentElement); }); }); });
+      mo.observe(d.body, { childList: true, subtree: true });
+    }
     d.dispatchEvent(new Event('bja:ready'));
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', init); else init();

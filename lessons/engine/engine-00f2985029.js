@@ -399,7 +399,7 @@ document.addEventListener('dragstart',e=>e.preventDefault());
 /* ================= v2: شكلي إذا 🎭 ================= */
 document.querySelectorAll('.actgame').forEach(s=>{const list=JSON.parse(s.querySelector('script.jd').textContent);let used=[];const card=s.querySelector('.actcard'),q=s.querySelector('.actq');
   s.querySelector('.actnew').onclick=()=>{if(used.length>=list.length)used=[];let k;do{k=Math.floor(Math.random()*list.length);}while(used.includes(k));used.push(k);
-    card.classList.remove('pop');void card.offsetWidth;card.classList.add('pop');q.textContent='شكلي إذا… '+list[k];SND.pop();};});
+    card.classList.remove('pop');void card.offsetWidth;card.classList.add('pop');q.innerHTML='شكلي إذا… '+list[k];SND.pop();};});
 /* ================= v2: ابحث عن 🧐 ================= */
 document.querySelectorAll('.findgame').forEach(s=>{const g=s.querySelector('.findgrid'),tm=s.querySelector('.ftm');let iv=null,left=+tm.dataset.t;
   const SETS=[['😀','🧐'],['😺','😼'],['🙂','🙃'],['🌸','🌺'],['٦','٩'],['٨','٣'],['ب','ت'],['س','ش'],['٧','٧٠'],['٢٥','٢٣'],['⬛','◼️'],['🍉','🍈']];
