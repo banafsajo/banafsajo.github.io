@@ -1,0 +1,166 @@
+/* بنفسجو — هوية موحّدة للمحطات والجولات
+   لون واحد (بنفسجي بنفسجو) بدرجاته، أزرار هادئة، وشرح مرسوم حيّ.
+   يُحمَّل بعد ملف المحرّك ولا يغيّر أي سؤال أو إجابة أو وظيفة زر. */
+html.bjd{
+  --v:#5B3BB5;--v2:#7A5BD3;--v3:#9A82E3;--vd:#2E1E6B;--vl:#F3EFFB;--vl2:#ECE5FA;--line:#E6DEF3;
+  --ink:#251C3B;--mut:#6E6680;--paper:#FBF9F6;--okc:#1E8E4A;--noc:#B4434F;
+  --gd:#5B3BB5;--g:#5B3BB5;--g2:#7A5BD3;--y:#ECE5FA;
+}
+/* ===== الورق: خلفية دفتر منقّط هادئة ===== */
+html.bjd .slide:not(.game):not(.title){
+  background:radial-gradient(circle at 1px 1px,rgba(91,59,181,.13) 1.3px,transparent 1.6px) 0 0/34px 34px,var(--paper);
+  color:var(--ink)
+}
+/* ===== شرائح اللعب والعناوين: درجة بنفسجية واحدة بدل الأزرق والملوّن ===== */
+html.bjd .slide.game,html.bjd .slide.title{
+  background:radial-gradient(120% 90% at 85% 0%,rgba(154,130,227,.45) 0%,rgba(154,130,227,0) 55%),
+             radial-gradient(circle at 1px 1px,rgba(255,255,255,.08) 1.3px,transparent 1.6px) 0 0/34px 34px,
+             linear-gradient(160deg,#35227F 0%,#4A2FA0 55%,#5B3BB5 100%)!important;
+  color:#fff
+}
+html.bjd .tA{background:#fff!important;color:var(--v)!important}
+html.bjd .tB{background:rgba(255,255,255,.16)!important;color:#fff!important;box-shadow:inset 0 0 0 2px rgba(255,255,255,.45)!important}
+html.bjd .lcol.tA,html.bjd .dside.tA,html.bjd .wcol.tA{background:rgba(255,255,255,.16)!important;color:#fff!important}
+html.bjd .lcol.tB,html.bjd .dside.tB,html.bjd .wcol.tB{background:rgba(255,255,255,.07)!important;color:#fff!important;box-shadow:inset 0 0 0 2px rgba(255,255,255,.3)!important}
+html.bjd .gbar .team{box-shadow:none!important;border-radius:999px!important;padding:4px 14px!important;font-size:24px!important}
+html.bjd .gbar .team .av{font-size:28px!important}
+html.bjd .gbar .team .sc{font-size:30px!important}
+html.bjd .gbar .vs{opacity:.55;font-size:20px;font-weight:800}
+#dojo .chip.tA{color:var(--v)!important}
+
+/* ===== السؤال وخيارات كاهوت: بطاقات بيضاء موحّدة بدل الألوان الأربعة ===== */
+html.bjd .gq2{background:rgba(255,255,255,.1)!important;border:1.5px solid rgba(255,255,255,.2);border-radius:24px!important;color:#fff}
+html.bjd .gq2 .qtag{background:rgba(255,255,255,.18)!important;color:#fff!important;font-size:21px!important;font-weight:800}
+html.bjd .kopt,html.bjd .kopt.k0,html.bjd .kopt.k1,html.bjd .kopt.k2,html.bjd .kopt.k3{
+  background:#fff!important;color:var(--ink)!important;border:0!important;border-radius:20px!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 8px 22px rgba(20,8,60,.28)!important;transition:transform .18s,box-shadow .18s,opacity .25s
+}
+html.bjd .kopt:hover{transform:translateY(-2px)!important}
+html.bjd .kopt .sh{flex:none;width:54px!important;height:54px;border-radius:50%;background:var(--vl2);color:var(--v);font-size:26px!important;display:inline-flex;align-items:center;justify-content:center}
+html.bjd .kopt.win{outline:0!important;box-shadow:0 0 0 5px #9EE6BC,0 10px 26px rgba(20,8,60,.3)!important}
+html.bjd .kopt.win .sh{background:var(--okc);color:#fff}
+html.bjd .kopt.dim{opacity:.32!important}
+html.bjd .slide .kopt.mine,html.bjd .slide.kq.ex .kopt.sel{outline:4px solid #fff!important;outline-offset:3px}
+html.bjd .kfrow .kfig{border-radius:22px!important;box-shadow:0 8px 22px rgba(20,8,60,.25)}
+html.bjd .gsol{background:#fff!important;color:var(--v)!important;border-radius:999px!important}
+html.bjd .timer{background:#fff!important;color:var(--v)!important;box-shadow:0 0 0 7px rgba(255,255,255,.16),0 8px 20px rgba(20,8,60,.3)!important}
+html.bjd .timer.low{color:var(--noc)!important}
+html.bjd .ghint,html.bjd .slide.kq.ex .ghint{font-size:20px!important;color:rgba(255,255,255,.72)!important;font-weight:500}
+
+/* ===== أزرار اللعب: حبوب هادئة، والزر الرئيسي وحده ممتلئ ===== */
+html.bjd .gbtn{
+  font:700 21px Tajawal,sans-serif!important;border-radius:999px!important;padding:5px 18px!important;
+  background:rgba(255,255,255,.1)!important;color:#fff!important;border:1.5px solid rgba(255,255,255,.34)!important;
+  box-shadow:none!important;transition:background .15s,transform .15s
+}
+html.bjd .gbtn:hover{background:rgba(255,255,255,.2)!important}
+html.bjd .gbtn:active{transform:scale(.97)}
+html.bjd .gbtn.reveal,html.bjd .gbtn.big{background:#fff!important;color:var(--v)!important;border-color:#fff!important}
+html.bjd .gbtn.award.on{outline:3px solid #fff!important;outline-offset:2px}
+html.bjd .slide:not(.game) .gbtn{background:#fff!important;color:var(--v)!important;border-color:var(--line)!important}
+html.bjd .slide:not(.game) .gbtn:hover{border-color:var(--v3)!important}
+
+/* ===== العناوين: قلم تحديد مرسوم ===== */
+html.bjd .slide:not(.game):not(.title) h2{
+  color:var(--vd);font-size:44px;display:inline;line-height:1.5;
+  background:linear-gradient(transparent 62%,rgba(154,130,227,.32) 62%,rgba(154,130,227,.32) 92%,transparent 92%);
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 6px
+}
+html.bjd .slide:not(.game):not(.title) h2::after{content:"";display:block;height:14px}
+
+/* ===== الشرح: خطوات مرقّمة مرسومة تظهر واحدة واحدة ===== */
+html.bjd .ex:not(.slide){background:transparent!important;border:0!important;padding:4px 6px!important;counter-reset:bjs}
+html.bjd .ex:not(.slide) .step{position:relative;padding:8px 66px 8px 4px!important;border:0!important;counter-increment:bjs;line-height:1.45}
+html.bjd .ex:not(.slide) .step::before{
+  content:counter(bjs,arabic-indic);position:absolute;right:4px;top:10px;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--v);background:#fff;
+  border:2.5px solid var(--v);border-radius:52% 46% 55% 44%/48% 55% 45% 52%;box-shadow:2px 3px 0 var(--vl2)
+}
+html.bjd .ex:not(.slide) .step:not(:last-child)::after{
+  content:"";position:absolute;right:26px;top:58px;bottom:-12px;border-right:2.5px dashed rgba(91,59,181,.28)
+}
+html.bjd .ex:not(.slide) .step.ans{color:var(--vd)!important;font-weight:800}
+html.bjd .ex:not(.slide) .step.ans::before{content:"✓";background:var(--v);color:#fff}
+html.bjd .ex:not(.slide) .step.ans>*:last-child,html.bjd .ex:not(.slide) .step.ans{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 3, 120 12, 180 6 S 270 4, 297 8' fill='none' stroke='%239A82E3' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:0% 14px;background-position:right 2px bottom 0
+}
+html.bjd .ex:not(.slide) .step.ans.on{animation:bjdIn .45s cubic-bezier(.2,.8,.2,1) both,bjdLine .7s .25s ease-out forwards}
+@keyframes bjdLine{to{background-size:min(100%,520px) 14px}}
+html.bjd .step.on{animation:bjdIn .45s cubic-bezier(.2,.8,.2,1) both!important}
+@keyframes bjdIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+html.bjd .ex:not(.slide) .step.on::before{animation:bjdPop .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes bjdPop{from{transform:scale(.2) rotate(-25deg)}to{transform:none}}
+
+/* ===== الملاحظات: بطاقات ورقية لاصقة ===== */
+html.bjd .note{
+  position:relative;background:#fff!important;border:2px solid var(--line)!important;border-radius:18px!important;
+  padding:10px 20px 10px 18px!important;box-shadow:3px 4px 0 var(--vl2);transform:rotate(-.5deg);color:var(--ink)
+}
+html.bjd .note::before{content:"";position:absolute;top:-10px;right:34px;width:70px;height:20px;background:rgba(154,130,227,.35);border-radius:3px;transform:rotate(-3deg)}
+html.bjd .note.trap{border:2px dashed var(--v3)!important;transform:rotate(.5deg);background:#FDFBFF!important}
+html.bjd .note.trap::before{background:rgba(91,59,181,.22)}
+html.bjd .box{background:#fff!important;border:2px solid var(--line)!important;border-radius:22px!important;box-shadow:3px 4px 0 var(--vl2)}
+html.bjd .figc svg,html.bjd .slide:not(.game) .kfig svg{filter:drop-shadow(2px 3px 0 rgba(91,59,181,.08))}
+
+/* ===== شريحة العنوان: أقل نصًا وأوضح ===== */
+html.bjd .slide.title h1{letter-spacing:0}
+html.bjd .tsub{font-size:26px!important;opacity:.82!important;max-width:880px!important;margin:0 auto}
+html.bjd .tsup{background:rgba(255,255,255,.14);border-radius:999px;padding:2px 18px;display:inline-block;font-size:22px!important}
+html.bjd .tmeta span{background:transparent!important;border:1.5px solid rgba(255,255,255,.35);font-size:21px!important}
+
+/* ===== الشريط الجانبي: فاتح وهادئ ===== */
+html.bjd #rail{background:#fff!important;color:var(--ink)!important;border-left:1.5px solid var(--line);box-shadow:none}
+html.bjd #rail .rn{color:#fff;background:var(--v);width:58px;height:58px;border-radius:18px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:34px!important}
+html.bjd #rail .rt{color:var(--v);font-weight:800;font-size:16px!important;opacity:1}
+html.bjd #rail .ob{border:1.5px solid var(--line)!important;color:var(--mut);opacity:1!important;background:#fff;font-size:16px!important;border-radius:14px}
+html.bjd #rail .ob .dot{border:2px solid var(--line)!important;color:var(--mut);background:#fff}
+html.bjd #rail .ob.cur{border-color:var(--v)!important;color:var(--v);background:var(--vl)!important}
+html.bjd #rail .ob.cur .dot{border-color:var(--v)!important;color:var(--v)}
+html.bjd #rail .ob.done .dot{background:var(--v)!important;border-color:var(--v)!important;color:#fff!important}
+html.bjd #railpg{color:var(--mut)!important;font-size:15px!important}
+html.bjd #strat{background:var(--vl)!important;border:1.5px dashed var(--v3)!important;color:var(--ink);font-size:15px!important}
+html.bjd #strat b{color:var(--v)!important;font-size:15px!important}
+html.bjd #comp{background:var(--vl)!important;color:var(--v)!important;font-size:15px!important}
+html.bjd #rail .credit{color:var(--mut)!important;opacity:.8}
+html.bjd #railtools button{background:#fff!important;border:1.5px solid var(--line)!important;color:var(--v)!important;font-size:17px!important;border-radius:12px!important}
+html.bjd #railtools button:hover{background:var(--vl)!important}
+
+/* ===== شريط التنقل: كبسولة عائمة واحدة ===== */
+html.bjd #nav{
+  background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:999px;padding:4px 6px!important;gap:4px!important;
+  box-shadow:0 6px 20px rgba(37,28,59,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);bottom:10px!important
+}
+html.bjd #nav button,html.bjd #nav .home{
+  font:700 16px Tajawal,sans-serif!important;border-radius:999px!important;padding:5px 12px!important;border:0!important;
+  background:transparent!important;color:var(--v)!important;text-decoration:none;cursor:pointer;line-height:1.4
+}
+html.bjd #nav button:hover,html.bjd #nav .home:hover{background:var(--vl)!important}
+html.bjd #nav #next{background:var(--v)!important;color:#fff!important;padding:5px 18px!important;font-size:17px!important}
+html.bjd #nav #next:hover{background:var(--v2)!important}
+html.bjd #nav .cnt{color:var(--mut)!important;font-size:14px!important;padding:0 6px;font-weight:700}
+
+/* ===== لوحة الطالب الشخصية ===== */
+html.bjd #solohud{border-radius:999px!important;border:1.5px solid var(--line)!important;box-shadow:0 6px 18px rgba(37,28,59,.12)!important;padding:5px 12px!important}
+html.bjd #solohud .dots i{background:var(--vl2)!important;border-color:var(--line)!important}
+html.bjd #solohud .dots i.on{background:var(--v)!important;border-color:var(--v)!important}
+
+/* ===== دخول حيّ لكل شريحة ===== */
+html.bjd .slide.cur>.inner>*{animation:bjdUp .5s cubic-bezier(.2,.8,.2,1) both}
+html.bjd .slide.cur>.inner>*:nth-child(2){animation-delay:.07s}
+html.bjd .slide.cur>.inner>*:nth-child(3){animation-delay:.14s}
+html.bjd .slide.cur>.inner>*:nth-child(n+4){animation-delay:.2s}
+@keyframes bjdUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ===== شريحة الفيديو ===== */
+html.bjd .slide.bjvid .bjv-cap{color:var(--ink)!important;font-size:28px!important}
+html.bjd .slide.bjvid .bjv{margin:6px auto 0}
+
+/* ===== أزرار غلاف التطبيق فوق العرض: أصغر وأهدأ ===== */
+html.bjd .bja-dk .bjb{background:rgba(255,255,255,.9)!important;color:var(--v)!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important;font-size:13px!important}
+
+@media (prefers-reduced-motion:reduce){
+  html.bjd .slide.cur>.inner>*,html.bjd .step.on,html.bjd .ex:not(.slide) .step.on::before{animation:none!important}
+  html.bjd .ex:not(.slide) .step.ans{background-size:min(100%,520px) 14px}
+}
+@media print{html.bjd .slide{background:#fff!important}}

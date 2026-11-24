@@ -1,0 +1,39 @@
+/* بنفسجو — مظهر الفيديوهات القصيرة */
+.bjv{--v-bg:#0E0C26;position:relative;display:block;width:100%;max-width:880px;margin:0 auto;direction:rtl;font-family:inherit;color:#F4F1FF}
+.bjv-stage{position:relative;aspect-ratio:16/9;background:#0E0C26;border-radius:18px;overflow:hidden;box-shadow:0 8px 26px rgba(40,20,100,.28);cursor:pointer;line-height:0}
+.bjv.mini .bjv-stage{border-radius:0;box-shadow:none;cursor:inherit}
+.bjv-stage svg{display:block;width:100%;height:100%}
+.bjv-stage svg text{font-family:inherit;pointer-events:none}
+.bjv-big{position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#5B35B6;font-size:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.bjv-big b{font-weight:800;margin-inline-start:-4px}
+.bjv.paused .bjv-big{opacity:1;pointer-events:auto}
+.bjv-big:hover{transform:scale(1.06)}
+.bjv-cap{min-height:3.1em;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(15px,2.4vw,19px);font-weight:700;line-height:1.55;padding:12px 8px 4px;color:var(--bj-fg,#2A2150);text-wrap:balance}
+.bjv-cap.in{animation:bjvIn .45s ease both}
+@keyframes bjvIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bjv-bar{display:flex;align-items:center;gap:10px;padding:6px 2px 0}
+.bjv-bar button{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid rgba(99,66,190,.25);background:#fff;color:#5B35B6;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.bjv-bar button:hover{background:#F1ECFF}
+.bjv-seek{flex:1;height:6px;accent-color:#6342BE;direction:rtl;cursor:pointer}
+.bjv .sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em;direction:ltr}
+.bjv-cap .sfr{font-size:1.25em}
+.bjv .sfr>span{padding:0 .15em}.bjv .sfr>span:first-child{border-bottom:.09em solid currentColor}
+@media (prefers-color-scheme:dark){.bjv-cap{color:#EDE8FF}.bjv-bar button{background:#1B1740;color:#CBB8FF;border-color:rgba(255,255,255,.18)}.bjv-bar button:hover{background:#262055}}
+/* بطاقة الفيديو داخل صفحات المحاكيات */
+.bjv-sec{max-width:1280px;margin:12px auto 0;padding:0 14px;width:100%}
+.bjv-sec details{background:var(--panel,#fff);border:1px solid rgba(99,66,190,.16);border-radius:20px;padding:10px 14px 14px}
+.bjv-sec summary{cursor:pointer;font-weight:800;font-size:16px;list-style:none;display:flex;align-items:center;gap:8px;min-height:36px}
+.bjv-sec summary::-webkit-details-marker{display:none}
+.bjv-sec summary::after{content:"إخفاء";margin-inline-start:auto;font-size:13px;font-weight:700;color:#7A64C9}
+.bjv-sec details:not([open]) summary::after{content:"عرض"}
+.bjv-sec .bjv{margin-top:10px;max-width:760px}
+@media (max-width:760px){.bjv-sec{padding:0 10px}}
+/* داخل شرائح الدروس (١٢٨٠×٧٢٠) */
+.slide.bjvid .bjv{max-width:880px}
+.slide.bjvid .bjv-cap{font-size:30px;min-height:2.6em;color:#E7DEFF;padding-top:10px}
+.slide.bjvid .bjv-bar button{width:52px;height:52px;font-size:22px}
+.slide.bjvid .bjv .sfr{font-size:.9em}
+/* بطاقات الألعاب: عرض متحرك بدل الصورة الثابتة */
+.thumb .bjv.mini{position:absolute;inset:0;max-width:none;margin:0;height:100%}
+.thumb .bjv.mini .bjv-stage{aspect-ratio:auto;height:100%}
+@media (prefers-reduced-motion:reduce){.bjv-cap.in{animation:none}}

@@ -70,7 +70,7 @@ footer{padding:8px 14px;text-align:center;color:var(--muted);font-size:13px}
 .readout .bad{font-size:16px}
 @media (max-width:760px){header.bar h1{flex:1 1 100%;font-size:19px}}
 </style>
-<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><!--bja--><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#FBF9F6"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="بنفسجو"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="/assets/bj-app.css?v=2"><script src="/assets/bj-app.js?v=2" defer></script></head>
+<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><!--bja--><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#FBF9F6"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="بنفسجو"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="/assets/bj-app.css?v=2"><script src="/assets/bj-app.js?v=2" defer></script><link rel="stylesheet" href="/assets/bj-anim.css"></head>
 <body>
 <script>
 /* بوابة المشتركين — لا تعدّل هذا الجزء. FREE يحدده الباني (true للمحاكاة المجانية). */
@@ -84,7 +84,7 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
  <button class="ghost" id="helpbtn" type="button">❓ كيف ألعب؟</button>
  <button id="chalbtn" type="button">🎯 وضع التحدي</button>
  <a href="../games.html">🎮 الألعاب</a> <a href="../index.html">🏠 العودة للمنصة</a>
-</header>
+</header><div class="bjv-sec"><details open><summary>🎬 شاهد الفكرة: السرعة والمسافة والزمن</summary><div data-bjv="speed"></div></details></div>
 <main>
  <section class="panel stage" id="stage">
   <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" aria-label="طريق السباق">
@@ -314,5 +314,5 @@ window.SIM_onChallengeEnter=()=>{S.playing=false;S.hideSol=true;draw();};
 window.SIM_onChallengeExit=()=>{S.playing=false;S.tau=0;S.hideSol=false;syncUI();readUI();buildRoad();update();};
 new MutationObserver(()=>{if($('#chal').classList.contains('on')&&$('#cfb').textContent.trim()&&CH.cur&&CH.cur.state&&S.hideSol){S.hideSol=false;S.tau=0;S.playing=true;last=null;draw();requestAnimationFrame(frame);}}).observe($('#cfb'),{childList:true});
 </script>
-</body>
+<script src="/assets/bj-anim.js"></script><script src="/assets/bj-scenes.js"></script><script src="/assets/bj-scenes2.js"></script></body>
 </html>

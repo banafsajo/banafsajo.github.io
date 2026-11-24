@@ -1,25 +1,71 @@
 {
  "id": "/",
- "name": "منصة بنفسجو",
+ "name": "بنفسجو — رفيق الطالب",
  "short_name": "بنفسجو",
- "description": "منصة القدرات التفاعلية: محطات قصيرة، جولات تنافسية، ألعاب، ومساعدك بنفسجو.",
+ "description": "رفيق طالب القدرات: اسأل بنفسجو، ألعاب تفاعلية، وملفات للمراجعة — يعمل حتى دون إنترنت.",
  "lang": "ar",
  "dir": "rtl",
- "start_url": "/index.html?source=app",
+ "start_url": "/claude.html?source=app",
  "scope": "/",
  "display": "standalone",
  "orientation": "any",
  "background_color": "#FBF9F6",
  "theme_color": "#FBF9F6",
- "categories": ["education"],
+ "categories": [
+  "education"
+ ],
  "icons": [
-  {"src": "/assets/brand/app-icon-192.png", "sizes": "192x192", "type": "image/png"},
-  {"src": "/assets/brand/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-  {"src": "/assets/brand/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  {
+   "src": "/assets/brand/app-icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/assets/brand/app-icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/assets/brand/app-icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
  ],
  "shortcuts": [
-  {"name": "المحطات", "short_name": "المحطات", "url": "/index.html#stations", "icons": [{"src": "/assets/brand/app-icon-192.png", "sizes": "192x192"}]},
-  {"name": "الألعاب التفاعلية", "short_name": "الألعاب", "url": "/games.html", "icons": [{"src": "/assets/brand/app-icon-192.png", "sizes": "192x192"}]},
-  {"name": "اسأل بنفسجو", "short_name": "اسأل بنفسجو", "url": "/claude.html", "icons": [{"src": "/assets/brand/app-icon-192.png", "sizes": "192x192"}]}
+  {
+   "name": "اسأل بنفسجو",
+   "short_name": "اسأل بنفسجو",
+   "url": "/claude.html?source=app",
+   "icons": [
+    {
+     "src": "/assets/brand/app-icon-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  },
+  {
+   "name": "الألعاب التفاعلية",
+   "short_name": "الألعاب",
+   "url": "/games.html?source=app",
+   "icons": [
+    {
+     "src": "/assets/brand/app-icon-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  },
+  {
+   "name": "الملفات",
+   "short_name": "الملفات",
+   "url": "/files.html?source=app",
+   "icons": [
+    {
+     "src": "/assets/brand/app-icon-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  }
  ]
 }

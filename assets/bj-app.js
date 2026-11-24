@@ -17,7 +17,17 @@
     : dir === 'sims' ? 'sim'
     : (!dir && file === 'index.html') ? 'home' : 'top';
   var ROOT = '/';
+  /* وضع التطبيق (نسخة الطالب): اسأل بنفسجو + الألعاب + الملفات، بلا المحطات والجولات */
+  var APP = false;
+  try {
+    if (/[?&]source=app/.test(location.search)) sessionStorage.setItem('bja_app', '1');
+    APP = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true || sessionStorage.getItem('bja_app') === '1';
+  } catch (e) {}
+  var HOME = APP ? 'claude.html' : 'index.html';
+  if (APP && TYPE === 'home') { location.replace(ROOT + 'claude.html'); return; }
+  if (APP && dir === 'lessons') { location.replace(ROOT + 'student/' + file + location.hash); return; }
   H.classList.add('bja', 'bja-' + TYPE);
+  if (APP) H.classList.add('bja-app');
 
   /* ---------- الأنماط ---------- */
   if (!d.querySelector('link[href*="bj-app.css"]')) {
@@ -48,9 +58,9 @@
 
   /* ---------- الرجوع والرئيسية ---------- */
   function parentPage() {
-    if (TYPE === 'deck') return dir === 'student' ? ROOT + 'claude.html' : ROOT + 'index.html#stations';
+    if (TYPE === 'deck') return dir === 'student' || APP ? ROOT + 'claude.html' : ROOT + 'index.html#stations';
     if (TYPE === 'sim') return ROOT + 'games.html';
-    return ROOT + 'index.html';
+    return ROOT + HOME;
   }
   function goBack() {
     var same = false;
@@ -69,13 +79,14 @@
     var b = el('button', 'bjb is-ghost bja-back ' + (cls || ''), ic('back') + '<span>رجوع</span>');
     b.type = 'button'; b.setAttribute('aria-label', 'الرجوع للصفحة السابقة'); b.onclick = goBack;
     var h = el('a', 'bjb is-sec bja-home ' + (cls || ''), ic('home') + '<span>الرئيسية</span>');
-    h.href = ROOT + 'index.html'; h.setAttribute('aria-label', 'الصفحة الرئيسية');
+    h.href = ROOT + HOME; h.setAttribute('aria-label', 'الصفحة الرئيسية');
     return [b, h];
   }
 
   /* ---------- شريط التبويبات السفلي ---------- */
   function tabBar() {
-    var items = [['index.html', 'home', 'الرئيسية'], ['games.html', 'game', 'الألعاب'], ['claude.html', 'ask', 'اسأل بنفسجو'], ['files.html', 'files', 'الملفات']];
+    var items = APP ? [['claude.html', 'ask', 'اسأل بنفسجو'], ['games.html', 'game', 'الألعاب'], ['files.html', 'files', 'الملفات']]
+      : [['index.html', 'home', 'الرئيسية'], ['games.html', 'game', 'الألعاب'], ['claude.html', 'ask', 'اسأل بنفسجو'], ['files.html', 'files', 'الملفات']];
     var nav = el('nav', 'bja-tabs');
     nav.setAttribute('aria-label', 'التنقل الرئيسي');
     nav.innerHTML = items.map(function (it) {
@@ -231,7 +242,7 @@
       : ['افتح قائمة المتصفح ' + ic('dots') + ' أعلى الشاشة', 'اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»', 'اضغط «تثبيت»، وستجد أيقونة بنفسجو بين تطبيقاتك'];
     var sh = el('div', 'bja-sheet');
     sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); sh.setAttribute('aria-label', 'ثبّت بنفسجو');
-    sh.innerHTML = '<div class="in"><h2>ثبّت بنفسجو على جوالك</h2><p>تفتح المنصة بلمسة من شاشتك الرئيسية مثل أي تطبيق، وتعمل المحطات التي فتحتها حتى دون إنترنت.</p><ol>' +
+    sh.innerHTML = '<div class="in"><h2>ثبّت بنفسجو على جوالك</h2><p>تفتح المنصة بلمسة من شاشتك الرئيسية مثل أي تطبيق، وتعمل الألعاب والمحطات التي فتحتها حتى دون إنترنت.</p><ol>' +
       steps.map(function (s) { return '<li><span>' + s + '</span></li>'; }).join('') + '</ol><button type="button" class="bjb is-pri wide">فهمت</button></div>';
     function close() { sh.remove(); d.removeEventListener('keydown', k); }
     function k(e) { if (e.key === 'Escape') close(); }
@@ -321,7 +332,7 @@
 
   /* ---------- واجهة مشتركة تستعملها الصفحة الرئيسية ---------- */
   window.BJA = {
-    ar: ar, ic: ic, install: install, stack: stackFractions, stackText: stackText, installed: installed, celebrate: celebrate, toast: netToast,
+    app: APP, ar: ar, ic: ic, install: install, stack: stackFractions, stackText: stackText, installed: installed, celebrate: celebrate, toast: netToast,
     canPrompt: function () { return !!deferred; },
     prog: function () { return load('bj_prog', {}); },
     last: function () { return load('bj_last', null); }
@@ -340,6 +351,15 @@
       stackFractions(d.body);
       var mo = new MutationObserver(function (ms) { ms.forEach(function (m) { m.addedNodes.forEach(function (x) { if (x.nodeType === 1) stackFractions(x); else if (x.nodeType === 3 && x.parentElement) stackFractions(x.parentElement); }); }); });
       mo.observe(d.body, { childList: true, subtree: true });
+    }
+    if (APP) {
+      /* في التطبيق: أي رابط للرئيسية القديمة يذهب لصفحة الطالب، وخانة «المحطات والجولات» تختفي */
+      d.querySelectorAll('a[href]').forEach(function (a) {
+        var h = a.getAttribute('href');
+        if (/^(\.\.\/|\/)?index\.html(#.*)?$/.test(h) || h === '/' || h === './') {
+          if (a.closest('.tabs')) a.hidden = true; else a.setAttribute('href', ROOT + 'claude.html');
+        }
+      });
     }
     d.dispatchEvent(new Event('bja:ready'));
   }

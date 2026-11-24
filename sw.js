@@ -1,6 +1,6 @@
 /* بنفسجو — عامل الخدمة: يجعل المنصة تطبيقًا يعمل حتى دون إنترنت.
    الصفحات الأساسية تُحفظ عند التثبيت، وكل محطة أو لعبة يفتحها الطالب تُحفظ تلقائيًا بعد أول زيارة. */
-const VERSION = 'bj-2026-11-24-2';
+const VERSION = 'bj-2026-11-24-5';
 const CORE = [
   '/', '/index.html', '/games.html', '/claude.html', '/files.html', '/brand.html',
   '/manifest.webmanifest',
@@ -9,7 +9,7 @@ const CORE = [
   '/assets/brand/app-icon-192.png', '/assets/brand/app-icon-512.png', '/assets/brand/apple-touch-icon.png',
   '/assets/brand/bj-wave.webp', '/assets/brand/bj-wave-sm.webp', '/assets/brand/bj-point-sm.webp', '/assets/brand/bj-win.webp',
   '/assets/brand/poses/wave-sm.webp', '/assets/brand/poses/think-sm.webp', '/assets/brand/poses/win-sm.webp',
-  '/files/list.json', '/claude/kb.json'
+  '/files/list.json', '/claude/kb.json', '/assets/bj-anim.css', '/assets/bj-anim.js', '/assets/bj-scenes.js', '/assets/bj-scenes2.js', '/assets/bj-scenes3.js'
 ];
 
 self.addEventListener('install', (e) => {
@@ -40,7 +40,7 @@ async function networkFirst(req) {
   } catch (err) {
     const hit = await c.match(req, { ignoreSearch: true });
     if (hit) return hit;
-    return (await c.match('/index.html')) || Response.error();
+    return (await c.match('/claude.html')) || Response.error();
   }
 }
 

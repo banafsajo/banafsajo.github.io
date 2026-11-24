@@ -71,7 +71,7 @@ footer{padding:8px 14px;text-align:center;color:var(--muted);font-size:13px}
 .frm{font-size:17px}
 .sfr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .12em;font-size:.92em;direction:rtl}.sfr>span{padding:0 .15em}.sfr>span:first-child{border-bottom:.09em solid currentColor}
 </style>
-<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><!--bja--><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#FBF9F6"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="بنفسجو"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="/assets/bj-app.css?v=2"><script src="/assets/bj-app.js?v=2" defer></script></head>
+<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><!--bja--><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#FBF9F6"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="بنفسجو"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="/assets/bj-app.css?v=2"><script src="/assets/bj-app.js?v=2" defer></script><link rel="stylesheet" href="/assets/bj-anim.css"></head>
 <body>
 <script>
 /* بوابة المشتركين — لا تعدّل هذا الجزء. FREE يحدده الباني (true للمحاكاة المجانية). */
@@ -85,7 +85,7 @@ let acc=null;try{acc=JSON.parse(localStorage.getItem("rq_access")||"null");}catc
  <button class="ghost" id="helpbtn" type="button">❓ كيف ألعب؟</button>
  <button id="chalbtn" type="button">🎯 وضع التحدي</button>
  <a href="../games.html">🎮 الألعاب</a> <a href="../index.html">🏠 العودة للمنصة</a>
-</header>
+</header><div class="bjv-sec"><details open><summary>🎬 شاهد الفكرة: توزيع مبلغ بنسبة</summary><div data-bjv="ratio"></div></details></div>
 <main>
  <section class="panel stage" id="stage">
   <!-- SIM:STAGE -->
@@ -340,5 +340,5 @@ const GENS=[qShare,qCompound,qDiff,qDirect,qSimplify];let gi=0;
 function SIM_genQuestion(){if(CH.n===0)gi=rnd(0,GENS.length-1);return GENS[(gi+CH.n)%GENS.length]();}
 
 </script>
-</body>
+<script src="/assets/bj-anim.js"></script><script src="/assets/bj-scenes.js"></script><script src="/assets/bj-scenes2.js"></script></body>
 </html>
