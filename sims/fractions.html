@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
 <style>
-:root{--navy:#0B6E8F;--sun:#C9F3EE;--vio:#5B7FE6;--ok:#1B7F3B;--bad:#C0392B;--bg:#F3FBFC;--paper:#fff;--line:#CDE9F0;--fg:#10303B;--muted:#557585}
+:root{--navy:#5B3BB5;--sun:#ECE5FA;--vio:#5B7FE6;--ok:#1B7F3B;--bad:#C0392B;--bg:#FBF9F6;--paper:#fff;--line:#E6DEF3;--fg:#251C3B;--muted:#6E6680}
 *{box-sizing:border-box}html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;font-size:18px;line-height:1.5;direction:rtl;display:flex;flex-direction:column}
 header.bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--navy);color:#fff;flex-wrap:wrap}
@@ -23,11 +23,11 @@ main{flex:1;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr)
 .row{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
 .row label{font-weight:700;min-width:90px}
 input[type=range]{flex:1;min-width:120px;accent-color:var(--vio);height:32px}
-.val{font-weight:800;color:var(--vio);min-width:48px;text-align:center;background:#E6F6F9;border-radius:8px;padding:2px 8px}
+.val{font-weight:800;color:var(--vio);min-width:48px;text-align:center;background:#F3EFFB;border-radius:8px;padding:2px 8px}
 .btn{font:inherit;font-weight:800;font-size:17px;padding:10px 16px;border-radius:12px;border:2px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;min-height:44px}
 .btn.alt{background:#fff;color:var(--navy)}.btn.sun{background:var(--sun);color:var(--navy);border-color:var(--sun)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.readout{background:#E6F6F9;border-radius:12px;padding:10px 12px;font-weight:700;font-size:19px;line-height:1.7}
+.readout{background:#F3EFFB;border-radius:12px;padding:10px 12px;font-weight:700;font-size:19px;line-height:1.7}
 .readout b{color:var(--vio)}
 .ok{color:var(--ok)}.bad{color:var(--bad)}
 /* التحدي */
@@ -37,7 +37,7 @@ input[type=range]{flex:1;min-width:120px;accent-color:var(--vio);height:32px}
 #chal .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media (max-width:420px){#chal .opts{grid-template-columns:1fr}}
 #chal .opt{font:inherit;font-size:19px;font-weight:700;padding:12px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--fg);cursor:pointer;min-height:48px;text-align:right}
-#chal .opt .l{display:inline-block;width:30px;height:30px;border-radius:50%;background:#E6F6F9;color:var(--vio);text-align:center;line-height:30px;margin-left:8px;font-weight:800}
+#chal .opt .l{display:inline-block;width:30px;height:30px;border-radius:50%;background:#F3EFFB;color:var(--vio);text-align:center;line-height:30px;margin-left:8px;font-weight:800}
 #chal .opt.right{border-color:var(--ok);background:#E8F7EE}#chal .opt.wrong{border-color:var(--bad);background:#FDECEC}
 #chal .fb{min-height:28px;font-weight:700}
 #chal .prog{font-size:14px;color:var(--muted)}
@@ -69,7 +69,7 @@ footer{padding:8px 14px;text-align:center;color:var(--muted);font-size:13px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-left:4px}
 #board text{font-family:Tajawal,system-ui,sans-serif}
 </style>
-<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><meta name="theme-color" content="#5F2EB8"></head>
+<link rel="icon" type="image/svg+xml" href="../assets/brand/mark.svg"><link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png"><!--bja--><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#FBF9F6"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="بنفسجو"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="/assets/bj-app.css?v=1"><script src="/assets/bj-app.js?v=1" defer></script></head>
 <body>
 <script>
 /* بوابة المشتركين — لا تعدّل هذا الجزء. FREE يحدده الباني (true للمحاكاة المجانية). */
